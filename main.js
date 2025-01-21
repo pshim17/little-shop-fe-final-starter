@@ -248,7 +248,7 @@ function getMerchantCoupons(event) {
 
 function displayMerchantCoupons(coupons) {
   show([couponsView])
-  hide([merchantsView, itemsView])
+  hide([merchantForm, merchantsView, itemsView])
   console.log(coupons)
 
   couponsView.innerHTML = ``;
@@ -261,9 +261,9 @@ function displayMerchantCoupons(coupons) {
         couponsView.innerHTML += `
           <article class="coupon" id="coupon-${coupon.id}">
             <img src="" alt="">
-            <h2>${coupon.attributes.discount} ${coupon.attributes.discount_type}-off Coupon</h2><br>
+            <h2><strong>${coupon.attributes.discount} ${coupon.attributes.discount_type}-off Coupon</strong></h2><br>
             <p> Use the code <strong>${coupon.attributes.code}</strong> to save today!</p><br>
-            <p> With this coupon, you will receive a $${coupon.attributes.discount} discount.</p><br>
+            <p> With this coupon, you will receive a <strong>$${coupon.attributes.discount}</strong> discount!</p><br>
             <p class="merchant-name-in-coupon"> Only redeemable at: <strong>${merchant}</strong>.</p><br>
           </article>
         `;
@@ -272,9 +272,9 @@ function displayMerchantCoupons(coupons) {
         couponsView.innerHTML += `
           <article class="coupon" id="coupon-${coupon.id}">
             <img src="" alt="">
-            <h2>${coupon.attributes.discount} ${coupon.attributes.discount_type}-off Coupon</h2><br>
+            <h2><strong>${coupon.attributes.discount} ${coupon.attributes.discount_type}-off Coupon</strong></h2><br>
             <p> Use the code <strong>${coupon.attributes.code}</strong> to save today!</p><br>
-            <p> With this coupon, you will receive a ${coupon.attributes.discount}% discount.</p><br>
+            <p> With this coupon, you will receive a <strong>${coupon.attributes.discount}%</strong> discount!</p><br>
             <p class="merchant-name-in-coupon"> Only redeemable at: <strong>${merchant}</strong>.</p><br>
           </article>
         `;
