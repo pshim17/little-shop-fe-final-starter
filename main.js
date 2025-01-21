@@ -236,20 +236,51 @@ function getMerchantCoupons(event) {
   let merchantId = event.target.closest("article").id.split('-')[1]
   console.log("Merchant ID:", merchantId)
 
-  fetchData(`merchants/${merchantId}`)
+  fetchData(`merchants/${merchantId}/coupons`)
   .then(couponData => {
     console.log("Coupon data from fetch:", couponData)
-    displayMerchantCoupons(couponData);
+    displayMerchantCoupons(couponData.data);
   })
+
+  const filteredMerchantCoupons = filterByMerchant(merchantId)
+  showMerchantItemsView(merchantId, filteredMerchantCoupons)
 }
 
 function displayMerchantCoupons(coupons) {
   show([couponsView])
   hide([merchantsView, itemsView])
+  console.log(coupons)
 
-  couponsView.innerHTML = `
-    <p>Coupon data will go here.</p>
-  `
+  couponsView.innerHTML = ``;
+
+  coupons.forEach((coupon) => {
+    if (coupon.attributes.active === true) {
+      let merchant = findMerchant(coupon.attributes.merchant_id).attributes.name;
+
+      if (coupon.attributes.discount_type === 'dollars') { 
+        couponsView.innerHTML += `
+          <article class="coupon" id="coupon-${coupon.id}">
+            <img src="" alt="">
+            <h2>${coupon.attributes.discount} ${coupon.attributes.discount_type}-off Coupon</h2><br>
+            <p> Use the code <strong>${coupon.attributes.code}</strong> to save today!</p><br>
+            <p> With this coupon, you will receive a $${coupon.attributes.discount} discount.</p><br>
+            <p class="merchant-name-in-coupon"> Only redeemable at: <strong>${merchant}</strong>.</p><br>
+          </article>
+        `;
+      }
+      else if (coupon.attributes.discount_type === 'percent') {
+        couponsView.innerHTML += `
+          <article class="coupon" id="coupon-${coupon.id}">
+            <img src="" alt="">
+            <h2>${coupon.attributes.discount} ${coupon.attributes.discount_type}-off Coupon</h2><br>
+            <p> Use the code <strong>${coupon.attributes.code}</strong> to save today!</p><br>
+            <p> With this coupon, you will receive a ${coupon.attributes.discount}% discount.</p><br>
+            <p class="merchant-name-in-coupon"> Only redeemable at: <strong>${merchant}</strong>.</p><br>
+          </article>
+        `;
+      }
+    }
+  })
 }
 
 //Helper Functions
